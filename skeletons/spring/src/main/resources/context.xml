@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://activemq.apache.org/schema/core
+        http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+  <!--
+    TODO: Use the amq: namespace to create
+          - embedded broker
+          - a ConnectionFactory to connect to the broker
+          - a queue object (for the events)
+          - a topic object (for the control bus)
+  -->
+
+  <!--
+    TODO: Create a JmsTemplate instance to send to the event queue
+  -->
+  
+
+  <bean id="messageTimer" class="be.anova.courseware.activemq.MessageTimerTask">
+    <property name="template" ref="jmsTemplate"/>
+  </bean>
+
+  <bean id="application" class="be.anova.courseware.activemq.Application"/>
+
+  <bean id="receiver" class="be.anova.course.activemq.MessageReceiver" />
+
+  <!--
+    TODO: Create 4 DMLC instances
+          - connect the receiver bean to the events queue
+          - connect the receiver bean to the control bus topic
+          - connect the application bean to the control bus topic
+          - connect the messageTimer bean to the control bus topic
+  -->
+
+  <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+    <property name="delay" value="5000" />
+    <property name="period" value="5000" />
+    <property name="timerTask" ref="messageTimer" />
+  </bean>
+
+  <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+    <property name="scheduledTimerTasks">
+      <list>
+        <ref bean="scheduledTask"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>
+
+
+

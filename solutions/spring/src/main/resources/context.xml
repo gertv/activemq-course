@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://activemq.apache.org/schema/core
+        http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+  <amq:broker persistent="false"/>
+
+  <amq:connectionFactory id="connectionFactory"
+                         brokerURL="vm://localhost"/>
+
+  <amq:queue id="events" physicalName="spring.timer.event" />
+
+  <amq:topic id="controlbus" physicalName="spring.control.bus" />
+
+  <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory" ref="connectionFactory" />
+    <property name="defaultDestination" ref="events"/>
+  </bean>
+
+  <bean id="messageTimer" class="be.anova.courseware.activemq.MessageTimerTask">
+    <property name="template" ref="jmsTemplate"/>
+  </bean>
+
+  <bean id="application" class="be.anova.courseware.activemq.Application"/>
+
+  <bean id="receiver" class="be.anova.course.activemq.MessageReceiver" />
+
+  <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="connectionFactory"/>
+    <property name="destinationName" value="example.first.queue"/>
+    <property name="messageListener" ref="receiver" />
+  </bean>
+
+  <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="connectionFactory"/>
+    <property name="destination" ref="controlbus"/>
+    <property name="messageListener" ref="receiver" />
+  </bean>
+
+
+  <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="connectionFactory"/>
+    <property name="destination" ref="controlbus"/>
+    <property name="messageListener" ref="application" />
+  </bean>
+
+  <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="connectionFactory"/>
+    <property name="destination" ref="controlbus"/>
+    <property name="messageListener" ref="messageTimer" />
+  </bean>
+
+  <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+    <property name="delay" value="5000" />
+    <property name="period" value="5000" />
+    <property name="timerTask" ref="messageTimer" />
+  </bean>
+
+  <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+    <property name="scheduledTimerTasks">
+      <list>
+        <ref bean="scheduledTask"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>
+
+
+

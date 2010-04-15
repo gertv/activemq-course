@@ -1,0 +1,58 @@
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<snippets>
+
+    <!--  dynamic network of brokers configuation -->
+    <broker xmlns="http://activemq.apache.org/schema/core">
+
+      <networkConnectors>
+          <networkConnector uri="multicast://default?group=brokers"/>
+      </networkConnectors>
+
+      <transportConnectors>
+          <transportConnector name="openwire" uri="tcp://0.0.0.0:61616"
+                              discoveryUri="multicast://default?group=brokers"/>
+      </transportConnectors>
+
+    </broker>
+
+    <!-- static network of broker configuration -->
+    <broker xmlns="http://activemq.apache.org/schema/core">
+
+      <networkConnectors>
+        <networkConnector uri="static:(tcp://broker1:61616,tcp://broker2:61616)" />
+      </networkConnectors>
+
+    </broker>
+    
+    <!--  other network connector options -->
+    <broker xmlns="http://activemq.apache.org/schema/core">
+
+      <networkConnectors>
+        <networkConnector duplex="true" uri="...">
+          <staticallyIncludedDestinations> 
+            <queue physicalName="management.>"/>
+            <topic physicalName="global.*"/>
+           </staticallyIncludedDestinations>
+           <dynnamicallyIncludedDestinations/>
+           <excludedDestinations/>
+        </networkConnector>
+      </networkConnectors>
+
+    </broker>
+
+</snippets>

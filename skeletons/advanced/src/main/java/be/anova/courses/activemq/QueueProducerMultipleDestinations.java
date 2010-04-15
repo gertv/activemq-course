@@ -27,8 +27,8 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.Logger;
 
 public class QueueProducerMultipleDestinations extends AbstractBrokerSupport {
-	
-    private static final Logger LOG = Logger.getLogger(QueueProducerMultipleDestinations.class);
+
+    private static Logger LOG = Logger.getLogger(QueueProducerMultipleDestinations.class);
 
     public static void main(String[] args) throws JMSException {
     	QueueProducerMultipleDestinations producer = new QueueProducerMultipleDestinations();
@@ -36,7 +36,12 @@ public class QueueProducerMultipleDestinations extends AbstractBrokerSupport {
     }
 
     public void run() throws JMSException {
-        //TODO: Send messages to multiple queues: private.msgs.anova & private.msgs.abis
+        Connection connection = null;
+        try {
+            //TODO: connect to the broker and send messages to multiple queues in one operation 
+
+        } finally {
+            closeConnection(connection);
+        }
     }
- 
 }

@@ -15,8 +15,8 @@
  */
 package be.anova.courses.activemq;
 
+import java.util.concurrent.CountDownLatch;
 import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -25,62 +25,54 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.Logger;
 
-public class QueueConsumerMultipleDestinations implements MessageListener {
+public class WildcardQueueConsumer extends AbstractBrokerSupport implements MessageListener {
 
-	public static String brokerURL = "tcp://localhost:61616";
-	private static Logger LOG = Logger
-			.getLogger(QueueConsumerMultipleDestinations.class);
+	private static Logger LOG = Logger.getLogger(WildcardQueueConsumer.class);
 
-	private ConnectionFactory factory;
-	private Connection connection;
-	private Session session;
-    private MessageConsumer consumer;
+    private final CountDownLatch done = new CountDownLatch(1);
 
 	public static void main(String[] args) {
-		QueueConsumerMultipleDestinations mc = new QueueConsumerMultipleDestinations();
+		WildcardQueueConsumer mc = new WildcardQueueConsumer();
 		mc.run();
 	}
 
 	public void run() {
+        Connection connection = null;
 		try {
-			ConnectionFactory factory = new ActiveMQConnectionFactory(brokerURL);
-			connection = factory.createConnection();
+			connection = getConnectionFactory().createConnection();
 			connection.start();
 
-			session = connection
-					.createSession(true, Session.CLIENT_ACKNOWLEDGE);
+			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-			Destination destination = session
-					.createQueue("private.msgs.anova,private.msgs.abis");
-			consumer = session.createConsumer(destination);
+			Destination destination = session.createQueue("private.msgs.*");
+			MessageConsumer consumer = session.createConsumer(destination);
 			consumer.setMessageListener(this);
+
+            done.await();
 		} catch (Exception e) {
 			System.out.println("Caught:" + e);
 			e.printStackTrace();
-		}
+		} finally {
+            closeConnection(connection);
+        }
 	}
 
 	public void onMessage(Message message) {
-		// TODO Auto-generated method stub
 		try {
 			if (message instanceof TextMessage) {
-				Thread.sleep(10000);
-				TextMessage txtMessage = (TextMessage) message;
-				System.out.println("Message received: " + txtMessage.getText());
-			} else {
+				TextMessage text = (TextMessage) message;
+				System.out.println("Message received from " + text.getJMSDestination());
+
+                if (text.getText().contains("done")) {
+                    done.countDown();
+                }
+            } else {
 				System.out.println("Invalid message received.");
 			}
 		} catch (JMSException e) {
-			System.out.println("Caught:" + e);
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.warn("Error handling message", e);
 		}
-
 	}
-
 }

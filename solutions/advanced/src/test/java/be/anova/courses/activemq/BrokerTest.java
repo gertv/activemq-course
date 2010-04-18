@@ -64,7 +64,9 @@ public class BrokerTest extends TestCase implements MessageListener {
     protected void tearDown() throws Exception {
         super.tearDown();
 
-        broker.stop();
+        if (broker != null) {
+           broker.stop();
+        }
     }
 
     public void test() throws Exception {

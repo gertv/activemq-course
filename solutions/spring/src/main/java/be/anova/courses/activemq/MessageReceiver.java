@@ -40,7 +40,11 @@ public class MessageReceiver implements MessageListener {
         try {
             if (message instanceof TextMessage) {
                 String text = ((TextMessage) message).getText();
-                LOGGER.info("Received" + text);
+                if (text.contains("echo")) {
+                    onEchoCommand(text);
+                } else {
+                    doEcho(text);
+                }
             }
         } catch (JMSException e) {
             LOGGER.warn("Error receiving JMS message", e);

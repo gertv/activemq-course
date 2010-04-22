@@ -22,12 +22,12 @@
 
   <parent>
     <artifactId>activemq</artifactId>
-    <groupId>be.anova.courseware</groupId>
+    <groupId>be.anova.courses</groupId>
     <version>1.0</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>be.anova.courseware.activemq</groupId>
+  <groupId>be.anova.courses.activemq</groupId>
   <artifactId>advanced</artifactId>
   <packaging>jar</packaging>
   <version>1.0</version>

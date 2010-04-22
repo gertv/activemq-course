@@ -38,7 +38,7 @@ public class QueueConsumer extends AbstractBrokerSupport {
     private final CountDownLatch latch = new CountDownLatch(1);
 
     public static void main(String[] args) {
-        AsyncQueueConsumer consumer = new AsyncQueueConsumer();
+        QueueConsumer consumer = new QueueConsumer();
         consumer.run();
     }
 

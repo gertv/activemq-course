@@ -38,13 +38,13 @@ public class QueueConsumer extends AbstractBrokerSupport {
     private final CountDownLatch latch = new CountDownLatch(1);
 
     public static void main(String[] args) {
-        AsyncQueueConsumer consumer = new AsyncQueueConsumer();
+        QueueConsumer consumer = new QueueConsumer();
         consumer.run();
     }
 
     public void run() {
-        //TODO Create listener for incoming messages on private.msgs.anova
-    	//     and invoke handle() method
+        //TODO Create your own loop to receive messages from the queue
+        //     Invoke the handle method for every message you receive
     }
 
     private void handle(TextMessage message) {

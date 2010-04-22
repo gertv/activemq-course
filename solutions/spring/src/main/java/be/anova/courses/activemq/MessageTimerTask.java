@@ -58,13 +58,6 @@ public class MessageTimerTask extends TimerTask implements MessageListener {
                     return session.createTextMessage(message);
                 }
             });
-            template.convertAndSend("example.second.queue", "A plain String");
-
-            Message message;
-
-            message = template.receive();
-            String text = (String) template.receiveAndConvert("example.second.queue");
-            message = template.receiveSelected("Language IN ('cy', 'ga', 'gd')");
         }
     }
 

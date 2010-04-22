@@ -22,17 +22,17 @@
     <property name="defaultDestination" ref="events"/>
   </bean>
 
-  <bean id="messageTimer" class="be.anova.courseware.activemq.MessageTimerTask">
+  <bean id="messageTimer" class="be.anova.courses.activemq.MessageTimerTask">
     <property name="template" ref="jmsTemplate"/>
   </bean>
 
-  <bean id="application" class="be.anova.courseware.activemq.Application"/>
+  <bean id="application" class="be.anova.courses.activemq.Application"/>
 
-  <bean id="receiver" class="be.anova.course.activemq.MessageReceiver" />
+  <bean id="receiver" class="be.anova.courses.activemq.MessageReceiver" />
 
   <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
     <property name="connectionFactory" ref="connectionFactory"/>
-    <property name="destinationName" value="example.first.queue"/>
+    <property name="destination" ref="events"/>
     <property name="messageListener" ref="receiver" />
   </bean>
 

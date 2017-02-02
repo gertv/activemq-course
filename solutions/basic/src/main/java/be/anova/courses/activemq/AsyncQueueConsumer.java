@@ -26,12 +26,13 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AsyncQueueConsumer extends AbstractBrokerSupport {
 
     private static final String QUEUE_NAME = "private.msgs.anova";
-    private static final Logger LOGGER = Logger.getLogger(AsyncQueueConsumer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AsyncQueueConsumer.class);
 
     private final CountDownLatch latch = new CountDownLatch(1);
 

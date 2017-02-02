@@ -25,12 +25,13 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AsyncTopicSubscriber extends AbstractBrokerSupport {
 
     private static final String TOPIC_NAME = "news.it.software";
-    private static final Logger LOGGER = Logger.getLogger(AsyncTopicSubscriber.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AsyncTopicSubscriber.class);
 
     private final CountDownLatch latch = new CountDownLatch(1);
 

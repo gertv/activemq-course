@@ -24,11 +24,12 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class QueueProducerMultipleDestinations extends AbstractBrokerSupport {
 
-    private static Logger LOG = Logger.getLogger(QueueProducerMultipleDestinations.class);
+    private static Logger LOG = LoggerFactory.getLogger(QueueProducerMultipleDestinations.class);
 
     public static void main(String[] args) throws JMSException {
     	QueueProducerMultipleDestinations producer = new QueueProducerMultipleDestinations();

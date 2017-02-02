@@ -24,7 +24,8 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.jms.support.converter.MessageConversionException;
@@ -39,7 +40,7 @@ import org.springframework.jms.support.converter.MessageConverter;
  */
 public class MessageTimerTask extends TimerTask implements MessageListener {
 
-    private static final Logger LOGGER = Logger.getLogger(MessageTimerTask.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageTimerTask.class);
 
     private JmsTemplate template;
 

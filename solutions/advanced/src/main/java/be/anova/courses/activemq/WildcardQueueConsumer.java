@@ -25,11 +25,12 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WildcardQueueConsumer extends AbstractBrokerSupport implements MessageListener {
 
-	private static Logger LOG = Logger.getLogger(WildcardQueueConsumer.class);
+	private static Logger LOG = LoggerFactory.getLogger(WildcardQueueConsumer.class);
 
     private final CountDownLatch done = new CountDownLatch(1);
 

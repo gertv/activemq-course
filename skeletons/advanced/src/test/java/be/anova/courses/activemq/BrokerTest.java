@@ -34,7 +34,8 @@ import junit.framework.TestCase;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BrokerTest extends TestCase implements MessageListener {
 
@@ -47,7 +48,7 @@ public class BrokerTest extends TestCase implements MessageListener {
 
     private int msgsSend = 0;
     private CountDownLatch msgsReceived = new CountDownLatch(COUNT);
-    private static Logger LOG = Logger.getLogger(BrokerTest.class);
+    private static Logger LOG = LoggerFactory.getLogger(BrokerTest.class);
 
     private BrokerService broker;
 

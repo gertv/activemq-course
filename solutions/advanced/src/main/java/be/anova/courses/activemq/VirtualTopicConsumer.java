@@ -28,13 +28,13 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VirtualTopicConsumer extends AbstractBrokerSupport {
 
     public static String brokerURL = "tcp://localhost:61616";
-	private static Logger LOGGER = Logger
-			.getLogger(VirtualTopicConsumer.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(VirtualTopicConsumer.class);
 
 	private final static CountDownLatch latch = new CountDownLatch(1);
 

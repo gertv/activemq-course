@@ -21,7 +21,8 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +33,7 @@ import org.apache.log4j.Logger;
  */
 public class MessageReceiver implements MessageListener {
 
-    private static final Logger LOGGER = Logger.getLogger(MessageReceiver.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiver.class);
 
     private boolean echo = true;
 

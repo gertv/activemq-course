@@ -26,12 +26,13 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TopicSubscriber extends AbstractBrokerSupport {
 
     private static final String TOPIC_NAME = "news.it.software";
-    private static final Logger LOGGER = Logger.getLogger(QueueConsumer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueueConsumer.class);
 
     public static void main(String[] args) {
         TopicSubscriber subscriber = new TopicSubscriber();

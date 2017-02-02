@@ -22,12 +22,13 @@ import javax.jms.Message;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VirtualTopicPublisher extends AbstractBrokerSupport {
    
     private static final String TOPIC_NAME = "VirtualTopic.News";
-    private static final Logger LOGGER = Logger.getLogger(VirtualTopicPublisher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VirtualTopicPublisher.class);
 
     public static void main(String[] args) {
     	VirtualTopicPublisher publisher = new VirtualTopicPublisher();

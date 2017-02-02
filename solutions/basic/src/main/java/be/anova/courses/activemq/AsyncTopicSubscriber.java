@@ -25,12 +25,13 @@ import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AsyncTopicSubscriber extends AbstractBrokerSupport {
 
     private static final String TOPIC_NAME = "news.it.software";
-    private static final Logger LOGGER = Logger.getLogger(AsyncTopicSubscriber.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AsyncTopicSubscriber.class);
 
     private final CountDownLatch latch = new CountDownLatch(1);
 
@@ -46,7 +47,7 @@ public class AsyncTopicSubscriber extends AbstractBrokerSupport {
 
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-            Destination destination = session.createTopic("news.it.sofware");
+            Destination destination = session.createTopic(TOPIC_NAME);
             MessageConsumer consumer = session.createConsumer(destination, "Language in ('cy', 'ga')");
 
             consumer.setMessageListener(new MessageListener() {

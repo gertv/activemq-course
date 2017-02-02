@@ -1,6 +1,7 @@
 *~
 target
 *.i??
+.idea
 .classpath
 .project
 .settings

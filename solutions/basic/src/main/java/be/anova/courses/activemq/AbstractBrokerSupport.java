@@ -21,7 +21,8 @@ import javax.jms.JMSException;
 import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract base class for basic JMS exercise
@@ -29,7 +30,7 @@ import org.apache.log4j.Logger;
 public abstract class AbstractBrokerSupport {
 
     private static final String BROKER_URL = "tcp://localhost:61616";
-    private static final Logger LOGGER = Logger.getLogger(AbstractBrokerSupport.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractBrokerSupport.class);
 
     private final ConnectionFactory connectionFactory;
 

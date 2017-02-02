@@ -52,7 +52,7 @@ public class TopicPublisher extends AbstractBrokerSupport {
                 message.setStringProperty("Language", "cy");
                 producer.send(message);
 
-                message = session.createTextMessage("Dia duit � IT nuachta");
+                message = session.createTextMessage("Dia duit ó IT nuachta");
                 message.setStringProperty("Language", "ga");
                 producer.send(message);
 

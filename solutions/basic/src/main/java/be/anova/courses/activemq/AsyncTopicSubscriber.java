@@ -52,7 +52,11 @@ public class AsyncTopicSubscriber extends AbstractBrokerSupport {
 
             consumer.setMessageListener(new MessageListener() {
                 public void onMessage(Message message) {
-                    handle((TextMessage) message);
+                    if (message instanceof TextMessage) {
+                    	handle((TextMessage) message);
+                    } else {
+                    	throw new IllegalArgumentException("Message type not supported - " + message.getClass());
+                    }
                 }
             });
 

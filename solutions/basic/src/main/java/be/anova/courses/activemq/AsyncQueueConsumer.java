@@ -53,12 +53,11 @@ public class AsyncQueueConsumer extends AbstractBrokerSupport {
 
             consumer.setMessageListener(new MessageListener() {
                 public void onMessage(Message message) {
-                    try {
-                        session.rollback();
-                    } catch (JMSException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    if (message instanceof TextMessage) {
+                    	handle((TextMessage) message);
+                    } else {
+                    	throw new IllegalArgumentException("Message type not supported - " + message.getClass());
                     }
-                    throw new RuntimeException("Failed!");
                 }
             });
 

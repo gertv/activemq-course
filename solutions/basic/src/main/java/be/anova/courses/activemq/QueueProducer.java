@@ -53,8 +53,8 @@ public class QueueProducer extends AbstractBrokerSupport {
                 producer.send(message);
             }
 
-            Message message = session.createTextMessage("done");
-            producer.send(message);
+            //Message message = session.createTextMessage("done");
+            //producer.send(message);
         } catch (JMSException e) {
             LOGGER.error("Error occured while sending JMS messages", e);
         } finally {

@@ -25,11 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by IntelliJ IDEA.
- * User: gert
- * Date: Apr 9, 2010
- * Time: 11:02:45 PM
- * To change this template use File | Settings | File Templates.
+ * Message listener implementation for use with Spring message listener container.
  */
 public class MessageReceiver implements MessageListener {
 

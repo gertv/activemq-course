@@ -8,10 +8,12 @@
         http://activemq.apache.org/schema/core
         http://activemq.apache.org/schema/core/activemq-core.xsd">
 
+  <!-- 
   <amq:broker persistent="false"/>
-
+  -->
+ 
   <amq:connectionFactory id="connectionFactory"
-                         brokerURL="vm://localhost"/>
+                         brokerURL="tcp://localhost:61616"/>
 
   <amq:queue id="events" physicalName="spring.timer.event" />
 
@@ -54,21 +56,7 @@
     <property name="destination" ref="controlbus"/>
     <property name="messageListener" ref="messageTimer" />
   </bean>
-
-  <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
-    <property name="delay" value="5000" />
-    <property name="period" value="5000" />
-    <property name="timerTask" ref="messageTimer" />
-  </bean>
-
-  <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
-    <property name="scheduledTimerTasks">
-      <list>
-        <ref bean="scheduledTask"/>
-      </list>
-    </property>
-  </bean>
-
+  
 </beans>
 
 

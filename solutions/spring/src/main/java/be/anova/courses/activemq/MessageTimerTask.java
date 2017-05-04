@@ -16,6 +16,7 @@
 package be.anova.courses.activemq;
 
 import java.util.Date;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.jms.JMSException;
@@ -32,56 +33,57 @@ import org.springframework.jms.support.converter.MessageConversionException;
 import org.springframework.jms.support.converter.MessageConverter;
 
 /**
- * Created by IntelliJ IDEA.
- * User: gert
- * Date: Apr 9, 2010
- * Time: 9:47:22 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: gert Date: Apr 9, 2010 Time: 9:47:22 PM To
+ * change this template use File | Settings | File Templates.
  */
 public class MessageTimerTask extends TimerTask implements MessageListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MessageTimerTask.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MessageTimerTask.class);
 
-    private JmsTemplate template;
+	private JmsTemplate template;
 
-    private boolean enabled = true;
+	private boolean enabled = true;
 
-    public void setTemplate(JmsTemplate template) {
-        this.template = template;
-    }
+	public void setTemplate(JmsTemplate template) {
+		this.template = template;
+		// add this to replace legacy Spring timer
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(this, 5000, 5000);
+	}
 
-    @Override
-    public void run() {
-        if (enabled) {
-            template.send(new MessageCreator() {
-                public Message createMessage(Session session) throws JMSException {
-                    String message = String.format("Message sent at %tc", new Date());
-                    return session.createTextMessage(message);
-                }
-            });
-        }
-    }
+	@Override
+	public void run() {
+		if (enabled) {
+			template.send(new MessageCreator() {
+				public Message createMessage(Session session) throws JMSException {
+					String message = String.format("Message sent at %tc", new Date());
+					return session.createTextMessage(message);
+				}
+			});
+		}
+	}
 
-    public void onMessage(Message message) {
-        try {
-            if (message instanceof TextMessage) {
-                String command = ((TextMessage) message).getText();
-                if (command.contains("timer")) {
-                    onTimerCommand(command);
-                } 
-            }
-        } catch (JMSException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-    }
+	public void onMessage(Message message) {
+		try {
+			if (message instanceof TextMessage) {
+				String command = ((TextMessage) message).getText();
+				if (command.contains("timer")) {
+					onTimerCommand(command);
+				}
+			}
+		} catch (JMSException e) {
+			e.printStackTrace(); // To change body of catch statement use File |
+									// Settings | File Templates.
+		}
+	}
 
-    private void onTimerCommand(String command) {
-        if (command.contains("on")) {
-            LOGGER.info("Timer is now on");
-            enabled = true;
-        } else {
-            LOGGER.info("Timer is now off");
-            enabled = false;
-        }
-    }
+	private void onTimerCommand(String command) {
+		if (command.contains("on")) {
+			LOGGER.info("Timer is now on");
+			enabled = true;
+		} else {
+			LOGGER.info("Timer is now off");
+			enabled = false;
+		}
+	}
 }

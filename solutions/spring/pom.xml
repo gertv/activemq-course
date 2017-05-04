@@ -55,6 +55,11 @@
         <groupId>org.springframework</groupId>
         <artifactId>spring-jms</artifactId>
       </dependency>
+      <dependency>
+      	<groupId>org.apache.activemq</groupId>
+      	<artifactId>activemq-spring</artifactId>
+      	<version>5.14.3</version>
+      </dependency>
   </dependencies>
 
 </project>
